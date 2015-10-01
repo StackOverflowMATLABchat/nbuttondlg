@@ -1,6 +1,6 @@
 function userchoice = nbuttondlg(question, buttonlabels, varargin)
 %NBUTTONDLG Generic n-button question dialog box.
-%  userchoice = NBUTTONDLG(question, boxtitle, buttonlabels) creates a 
+%  userchoice = NBUTTONDLG(question, buttonlabels, ...) creates a 
 %  modal dialog box that sizes to accomodate a generic number of buttons.
 %  The number of buttons is determined by the number of elements in
 %  buttonlabels, a 1xn cell array of strings. The name of the button that 
