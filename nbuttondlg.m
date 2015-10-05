@@ -1,16 +1,82 @@
 function userchoice = nbuttondlg(question, buttonlabels, varargin)
 %NBUTTONDLG Generic n-button question dialog box.
-%  userchoice = NBUTTONDLG(question, buttonlabels, ...) creates a 
-%  modal dialog box that sizes to accomodate a generic number of buttons.
-%  The number of buttons is determined by the number of elements in
-%  buttonlabels, a 1xn cell array of strings. The name of the button that 
-%  is pressed is returned as a string in userchoice.
+%  NBUTTONDLG(Question, ButtonLabels) creates a modal dialog box that sizes
+%  to accomodate a generic number of buttons. The number of buttons is 
+%  determined by the number of elements in buttonlabels, a 1xn cell array 
+%  of strings. The name of the button that is pressed is returned as a 
+%  string in userchoice. NBUTTONDLG will theoretically support an infinite
+%  number of buttons. The default paramaters are optimized for 4 buttons.
 %
-%  Theoretically this will to support an infinite number of buttons but the
-%  utility is currently optimized for a maximum of 4-5 buttons.
+%  NBUTTONDLG returns the label of the selected button as a character
+%  array. If the dialog window is closed without a valid selection the
+%  return value is empty.
+%
+%  NBUTTONDLG uses UIWAIT to suspend execution until the user responds.
+%
+%  Example:
+%
+%     UserChoice = nbuttondlg('What is your favorite color?', ...
+%                             {'Red', 'Green', 'Blue', 'Yellow'} ...
+%                             );
+%     if ~isempty(UserChoice)
+%        fprintf('Your favorite color is %s!\n', UserChoice);
+%     else
+%        fprintf('You have no favorite color :(\n')
+%     end
+%
+%  The Question and ButtonLabel inputs can be followed by parameter/value
+%  pairs to specify additional properties of the dialog box. For example,
+%  NBUTTONDLG(Question, ButtonLabels, 'DialogTitle', 'This is a Title!')
+%  will create a dialog box with the specified Question and ButtonLabels
+%  and replace the default figure title with 'This is a Title!'
+%
+%  Available Parameter/Value pairs:
+%
+%      BorderSize          Spacing between dialog box edges and button
+%                          edges. 
+%                          Value is in pixels.
+%                          Default: 20 pixels
+%
+%      ButtonWidth         Width of all buttons
+%                          Value is in pixels.
+%                          Default: 80 pixels
+%
+%      ButtonHeight        Height of all buttons
+%                          Value is in pixels.
+%                          Default: 40 pixels
+%
+%      ButtonSpacing       Spacing between all buttons
+%                          Value is in pixels.
+%                          Default: 20 pixels
+%
+%      PromptTextHeight    Height of the Question text box
+%                          Value is in pixels.
+%                          Default: 20 pixels
+%
+%      DialogTitle         Dialog box figure title
+%                          Value is an nx1 character array
+%                          Default: 'Please Select an Option:'
+%
+%      DefaultButton       Default highlighted button
+%                          Value is an integer or an nx1 character array.
+%                          An attempt will be made to match the character
+%                          array to a value in ButtonLabel. If no match is
+%                          found or the integer value is greater than the
+%                          number of buttons the default value will be used
+%                          Default: 1
+%
+%      CancelButton        Include a cancel button selection. If true, a
+%                          'Cancel' button label is added to ButtonLabel.
+%                          If 'Cancel' is selected, NBUTTONDLG returns an
+%                          empty string.
+%                          Value is true/false
+%                          Default: false
+%
+%  See also QUESTDLG, DIALOG, ERRORDLG, HELPDLG, INPUTDLG,
+%           LISTDLG, WARNDLG, UIWAIT
 
 % TODO: Add some error catching logic
-% TODO: Document PV-pairs
+% TODO: Add Position PV-pair
 
 p = generateparser;
 parse(p, varargin{:});
@@ -135,7 +201,7 @@ addOptional(p, 'CancelButton', includecancelbutton, @islogical);
 end
 
 function setdefaultbutton(btnHandle) 
-% Helper function ripped from guestboxdlg
+% Helper function ripped from questboxdlg
 
 % First get the position of the button.
 if strcmp(btnHandle.Units, 'Pixels')
