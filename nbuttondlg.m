@@ -65,8 +65,8 @@ function userchoice = nbuttondlg(question, buttonlabels, varargin)
 %                          number of buttons the default value will be used
 %                          Default: 1
 %
-%      CancelButton        Include a cancel button selection. If true, a
-%                          'Cancel' button label is added to ButtonLabel.
+%      CancelButton        Include a cancel button. If true, a 'Cancel' 
+%                          button label is added to ButtonLabel.
 %                          If 'Cancel' is selected, NBUTTONDLG returns an
 %                          empty string.
 %                          Value is true/false
@@ -129,24 +129,29 @@ for ii = 1:nbuttons
         'Units', 'pixels', ...
         'Position', [xpos p.Results.BorderSize p.Results.ButtonWidth p.Results.ButtonHeight], ...
         'String', buttonlabels{ii}, ...
-        'Callback', {@dlgbuttonfcn,  buttonlabels(1:nbuttons)}...
+        'Callback', {@dlgbuttonfcn}...
         );
 end
 
-    function dlgbuttonfcn(source, ~, buttonlist)
+    function dlgbuttonfcn(source, ~)
         % On button press, find which button the user pressed and exit
         % function
-        userchoice = buttonlabels{find(strcmp(source.String, buttonlist), 1)};
+        if ~verLessThan('MATLAB', '8.4') % handle graphics changed in R2014b
+            userchoice = buttonlabels{find(strcmp(source.String, buttonlabels), 1)};
+        else
+            userchoice = buttonlabels{find(strcmp(get(source, 'String'), buttonlabels), 1)};
+        end
         close(dlg.mainfig)
     end
 
-% Set default button highlighting, not implemented
+% Set default button highlighting
 if ischar(p.Results.DefaultButton)
     % Case insensitive search of the button labels for the specified button
     % string. If found, use that as the default button. Otherwise default
     % to the first button.
-    if sum(strcmpi(p.Results.DefaultButton, {dlg.button(:).String})) ~= 0
-        DefaultButton = find(strcmpi(p.Results.DefaultButton, {dlg.button(:).String}), 1);
+    
+    if sum(strcmpi(p.Results.DefaultButton, buttonlabels)) ~= 0
+        DefaultButton = find(strcmpi(p.Results.DefaultButton, buttonlabels), 1);
     else
         DefaultButton = 1;
     end
@@ -204,13 +209,26 @@ function setdefaultbutton(btnHandle)
 % Helper function ripped from questboxdlg
 
 % First get the position of the button.
-if strcmp(btnHandle.Units, 'Pixels')
+if ~verLessThan('MATLAB', '8.4') % handle graphics changed in R2014b
+    buttonunits = btnHandle.Units;
+else
+    buttonunits = get(btnHandle, 'Units');
+end
+
+if strcmp(buttonunits, 'Pixels')
     btnPos = btnHandle.Position;
 else
-    oldunits = btnHandle.Units;
-    btnHandle.Units = 'Pixels';
-    btnPos = btnHandle.Position;
-    btnHandle.Units = oldunits;
+    if ~verLessThan('MATLAB', '8.4') % handle graphics changed in R2014b
+        oldunits = btnHandle.Units;
+        btnHandle.Units = 'Pixels';
+        btnPos = btnHandle.Position;
+        btnHandle.Units = oldunits;
+    else
+        oldunits = get(btnHandle, 'Units');
+        set(btnHandle, 'Units', 'Pixels');
+        btnPos = get(btnHandle, 'Position');
+        set(btnHandle, 'Units', oldunits);
+    end     
 end
 
 % Next calculate offsets.
