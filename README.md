@@ -1,3 +1,5 @@
+[![MATLAB FEX](https://img.shields.io/badge/MATLAB-File%20Exchange-brightgreen.svg)](http://www.mathworks.com/matlabcentral/fileexchange/53394-nbuttondlg--a-generic-implementation-of-questboxdlg)
+
 # nbuttondlg
 
 NBUTTONDLG(Question, ButtonLabels) creates a modal dialog box that sizes to accomodate a generic number of buttons. The number of buttons is determined by the number of elements in buttonlabels, a 1xn cell array of strings. The name of the button that is pressed is returned as a string in userchoice. If the dialog window is closed without a valid selection the return value is empty.
