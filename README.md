@@ -25,6 +25,8 @@ else
 end
 ````
 
+![nbuttondlg](https://github.com/sco1/sco1.github.io/blob/master/nbuttondlg/nbuttondlg.PNG)
+
 ## Parameter/Value Pairs
 
 The Question and ButtonLabel inputs can be followed by parameter/value pairs to specify additional properties of the dialog box. For example, `NBUTTONDLG(Question, ButtonLabels, 'DialogTitle', 'This is a Title!')` will create a dialog box with the specified Question and ButtonLabels and replace the default figure title with 'This is a Title!'
