@@ -1,4 +1,4 @@
-[![MATLAB FEX](https://img.shields.io/badge/MATLAB-File%20Exchange-brightgreen.svg)](http://www.mathworks.com/matlabcentral/fileexchange/53394-nbuttondlg--a-generic-implementation-of-questboxdlg)
+[![MATLAB FEX](https://img.shields.io/badge/MATLAB-File%20Exchange-brightgreen.svg)](http://www.mathworks.com/matlabcentral/fileexchange/53394-nbuttondlg--a-generic-implementation-of-questboxdlg) ![Minimum Version](https://img.shields.io/badge/Requires-R2007a%20%28v7.4%29-orange.svg)
 
 # nbuttondlg
 
