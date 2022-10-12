@@ -1,0 +1,17 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+        exclude_types: [binary]
+      - id: mixed-line-ending
+        exclude_types: [binary]
+      - id: trailing-whitespace
+  - repo: https://github.com/sco1/pre-commit-matlab
+    rev: v1.2.0
+    hooks:
+      - id: matlab-reflow-comments
+        args: [--line-length=100]
